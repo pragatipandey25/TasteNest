@@ -18,10 +18,31 @@ const App = () => {
     setSearchLoading(true);
 
     try {
-      const res = await fetch(`${API_URL}filter.php?${filterType}=${query}`);
+      const url = `${API_URL}filter.php?${filterType}=${query}`;
+      console.log("filterRecipe: fetching", url);
+      let res = await fetch(url);
       if (!res.ok) throw new Error(`Error: ${res.status}`);
 
-      const result = await res.json();
+      let result = await res.json();
+
+      // if area filter returned empty, try common fallback variants (helps when API uses slightly different names)
+      if (filterType === "a" && !result?.meals) {
+        const areaFallbacks = {
+          Indian: ["India"],
+        };
+        const fallbacks = areaFallbacks[query];
+        if (fallbacks && fallbacks.length) {
+          for (const alt of fallbacks) {
+            const altUrl = `${API_URL}filter.php?${filterType}=${alt}`;
+            console.log("filterRecipe: trying fallback", altUrl);
+            res = await fetch(altUrl);
+            if (!res.ok) continue;
+            result = await res.json();
+            if (result?.meals) break;
+          }
+        }
+      }
+
       setSearchResult(result?.meals || []);
     } catch (error) {
       console.log(error);
@@ -35,7 +56,7 @@ const App = () => {
     (category) => {
       filterRecipe(category, "c");
     },
-    [filterRecipe]
+    [filterRecipe],
   );
 
   // filter by area
@@ -43,7 +64,7 @@ const App = () => {
     (area) => {
       filterRecipe(area, "a");
     },
-    [filterRecipe]
+    [filterRecipe],
   );
 
   const handleSearch = useCallback(async (query) => {
@@ -70,7 +91,10 @@ const App = () => {
           <Navbar handleSearch={handleSearch} />
           <CuisineBar filterByArea={filterByArea} />
           <Routes>
-            <Route path="/" element={<HomeView filterByCategory={filterByCategory} />} />
+            <Route
+              path="/"
+              element={<HomeView filterByCategory={filterByCategory} />}
+            />
             <Route path="/recipe/:id" element={<RecipeDetailView />} />
             <Route
               path="/search/:query"
