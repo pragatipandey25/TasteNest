@@ -1,91 +1,74 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Instagram, Youtube, X, Heart } from "lucide-react";
+import { Mail, MapPin, Sparkles } from "lucide-react";
 
 const Footer = () => {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="mt-12 border-t border-[rgba(255,122,48,0.14)] bg-[linear-gradient(180deg,rgba(43,43,43,0.98),rgba(30,30,30,0.98))] text-[#F5F5F5]">
+    <footer className="mt-14 border-t border-blue-900/40 bg-gray-950/85 backdrop-blur-md">
       <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        <div className="grid gap-8 md:grid-cols-3">
-          <div>
-            <h3 className="text-xl font-black tracking-wide text-white">
-              Pro<span className="text-(--primary)">Chef</span>
-            </h3>
-            <p className="text-sm mt-3 text-[rgba(245,245,245,0.72)] max-w-sm leading-6">
-              Discover warm, modern recipe inspiration with curated dishes,
-              quick meals, and a clean guest-first experience.
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <section>
+            <div className="flex items-center gap-2 text-xl font-extrabold tracking-wide mb-3">
+              <Sparkles className="w-5 h-5 text-yellow-300" />
+              <span className="text-blue-400">Taste</span>
+              <span>Nest</span>
+            </div>
+            <p className="text-sm text-muted max-w-sm leading-relaxed">
+              Your trusted kitchen companion for discovering global recipes,
+              planning meals, and cooking with confidence.
             </p>
-          </div>
+          </section>
 
-          <div>
-            <h4 className="text-sm font-semibold uppercase tracking-[0.18em] text-[rgba(245,245,245,0.8)] mb-4">
+          <section>
+            <h4 className="text-sm uppercase tracking-wider text-muted mb-3">
               Quick Links
             </h4>
-            <div className="flex flex-col gap-3 text-sm">
-              <Link
-                className="text-[rgba(245,245,245,0.75)] hover:text-white transition"
-                to="/"
-              >
+            <div className="flex flex-col gap-2 text-sm">
+              <Link to="/" className="hover:text-accent transition">
                 Home
               </Link>
-              <Link
-                className="text-[rgba(245,245,245,0.75)] hover:text-white transition"
-                to="/favorites"
-              >
-                My Favorites
-              </Link>
-              <Link
-                className="text-[rgba(245,245,245,0.75)] hover:text-white transition"
-                to="/search/Chicken"
-              >
-                Search Recipes
-              </Link>
+              <span className="text-muted">Trending Recipes</span>
+              <span className="text-muted">Global Cuisines</span>
+              <span className="text-muted">Quick Filter</span>
             </div>
-          </div>
+          </section>
 
-          <div>
-            <h4 className="text-sm font-semibold uppercase tracking-[0.18em] text-[rgba(245,245,245,0.8)] mb-4">
-              Follow
+          <section>
+            <h4 className="text-sm uppercase tracking-wider text-muted mb-3">
+              Contact
             </h4>
-            <div className="flex items-center gap-3">
-              <SocialIcon
-                label="Instagram"
-                href="#"
-                icon={<Instagram className="w-4 h-4" />}
-              />
-              <SocialIcon label="X" href="#" icon={<X className="w-4 h-4" />} />
-              <SocialIcon
-                label="YouTube"
-                href="#"
-                icon={<Youtube className="w-4 h-4" />}
-              />
+            <div className="space-y-2 text-sm">
+              <div className="flex items-center gap-2 text-muted">
+                <Mail className="w-4 h-4 text-blue-300" />
+                support@tastenest.app
+              </div>
+              <div className="flex items-center gap-2 text-muted">
+                <MapPin className="w-4 h-4 text-blue-300" />
+                Food Street, Kanpur, India
+              </div>
             </div>
-          </div>
+          </section>
         </div>
 
-        <div className="mt-8 pt-6 border-t border-[rgba(255,255,255,0.08)] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-sm text-[rgba(245,245,245,0.62)]">
-          <p>© {year} ProChef. All rights reserved.</p>
-          <div className="flex items-center gap-2">
-            <Heart className="w-4 h-4 text-(--primary)" />
-            <span>Made for food lovers.</span>
+        <div className="mt-8 pt-4 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-muted">
+          <p>{year} TasteNest. All rights reserved.</p>
+          <div className="flex items-center gap-4">
+            <button className="hover:text-accent transition" type="button">
+              Privacy
+            </button>
+            <button className="hover:text-accent transition" type="button">
+              Terms
+            </button>
+            <button className="hover:text-accent transition" type="button">
+              Support
+            </button>
           </div>
         </div>
       </div>
     </footer>
   );
 };
-
-const SocialIcon = ({ href, icon, label }) => (
-  <a
-    href={href}
-    aria-label={label}
-    title={label}
-    className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.04)] text-white transition hover:-translate-y-0.5 hover:border-[rgba(255,122,48,0.3)] hover:bg-[rgba(255,122,48,0.12)]"
-  >
-    {icon}
-  </a>
-);
 
 export default Footer;

@@ -3,19 +3,17 @@ import Navbar from "./components/Navbar";
 import RecipeDetailView from "./components/RecipeDetailView";
 import SearchView from "./components/SearchView";
 import HomeView from "./components/HomeView";
-import MyFavorites from "./components/MyFavorites";
 import Footer from "./components/Footer";
-import { useAuth } from "./AuthContext";
-import { Navigate } from "react-router-dom";
+import { getAuthUser, loginUser, logoutUser, signupUser } from "./utils/store";
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 const API_URL = "https://www.themealdb.com/api/json/v1/1/";
 
 const App = () => {
-  const { isAuthenticated } = useAuth();
   const [searchResult, setSearchResult] = useState([]);
   const [searchLoading, setSearchLoading] = useState(false);
+  const [authUser, setAuthUser] = useState(() => getAuthUser());
 
   const filterRecipe = useCallback(async (query, filterType) => {
     setSearchResult([]);
@@ -88,41 +86,53 @@ const App = () => {
     }
   }, []);
 
+  const handleSignup = useCallback((payload) => {
+    const result = signupUser(payload);
+    if (result.ok) setAuthUser(result.user);
+    return result;
+  }, []);
+
+  const handleLogin = useCallback((payload) => {
+    const result = loginUser(payload);
+    if (result.ok) setAuthUser(result.user);
+    return result;
+  }, []);
+
+  const handleLogout = useCallback(() => {
+    logoutUser();
+    setAuthUser(null);
+  }, []);
+
   return (
     <>
       <Router>
-        <div className="min-h-screen bg-gray-950 font-sans text-gray-100 flex flex-col">
-          <Navbar handleSearch={handleSearch} />
-          <div className="flex-1">
-            <Routes>
-              <Route
-                path="/"
-                element={
-                  <HomeView
-                    filterByCategory={filterByCategory}
-                    filterByArea={filterByArea}
-                  />
-                }
-              />
-              <Route path="/recipe/:id" element={<RecipeDetailView />} />
-              <Route
-                path="/favorites"
-                element={
-                  isAuthenticated ? (
-                    <MyFavorites />
-                  ) : (
-                    <Navigate to="/" replace />
-                  )
-                }
-              />
-              <Route
-                path="/search/:query"
-                element={
-                  <SearchView meals={searchResult} loading={searchLoading} />
-                }
-              />
-            </Routes>
-          </div>
+        <div className="min-h-screen bg-gray-950 font-sans text-gray-100">
+          <Navbar
+            handleSearch={handleSearch}
+            authUser={authUser}
+            onSignup={handleSignup}
+            onLogin={handleLogin}
+            onLogout={handleLogout}
+          />
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <HomeView
+                  filterByCategory={filterByCategory}
+                  filterByArea={filterByArea}
+                  isAuthenticated={Boolean(authUser)}
+                />
+              }
+            />
+            <Route path="/recipe/:id" element={<RecipeDetailView />} />
+            <Route
+              path="/search/:query"
+              element={
+                <SearchView meals={searchResult} loading={searchLoading} />
+              }
+            />
+          </Routes>
           <Footer />
         </div>
       </Router>

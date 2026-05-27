@@ -6,23 +6,30 @@ import { Loader } from "lucide-react";
 import { ChevronLeft, Utensils, BookOpen, Heart } from "lucide-react";
 import {
   addRecentViewed,
+  addCommunityFavorite,
+  removeCommunityFavorite,
   getCommunityFavorites,
-  setCommunityFavorites,
 } from "../utils/store";
-import { useAuth } from "../AuthContext";
 
 const RecipeDetailView = () => {
   const { id } = useParams();
   const { data, loading, error } = useFetch(`${API_URL}lookup.php?i=${id}`);
   const meal = data?.meals?.[0];
-  const { isAuthenticated } = useAuth();
 
   console.log(meal);
 
   // persist recently viewed
   React.useEffect(() => {
-    if (meal && isAuthenticated) addRecentViewed(meal);
-  }, [meal, isAuthenticated]);
+    if (meal) addRecentViewed(meal);
+  }, [meal]);
+
+  const [isFav, setIsFav] = React.useState(false);
+
+  React.useEffect(() => {
+    if (!meal) return;
+    const favs = getCommunityFavorites();
+    setIsFav(favs.some((m) => m.idMeal === meal.idMeal));
+  }, [meal]);
 
   if (loading)
     return (
@@ -64,17 +71,33 @@ const RecipeDetailView = () => {
           Back to Dashboard
         </Link>
 
-        {/* Save / Favorite button */}
-        <div className="flex items-center justify-end mb-4">
-          <SaveButton meal={meal} />
-        </div>
-
         <div className="bg-gray-900 p-6 md:p-12 rounded-3xl shadow-2xl shadow-black/70 border border-gray-800">
           <div className="lg:flex lg:space-x-12">
             <div className="lg:w-1/2 mb-8 lg:mb-0">
               <h1 className="text-4xl font-black text-gray-100 mb-6 leading-tight">
                 {meal?.strMeal}
               </h1>
+
+              <div className="mb-4">
+                <button
+                  onClick={() => {
+                    if (!meal) return;
+                    if (isFav) {
+                      removeCommunityFavorite(meal.idMeal);
+                      setIsFav(false);
+                    } else {
+                      addCommunityFavorite(meal);
+                      setIsFav(true);
+                    }
+                  }}
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-gray-700 bg-gray-900 text-sm font-semibold hover:bg-gray-800 transition"
+                >
+                  <Heart
+                    className={`w-5 h-5 ${isFav ? "text-red-400" : "text-gray-300"}`}
+                  />
+                  {isFav ? "Remove Favorite" : "Add to Favorites"}
+                </button>
+              </div>
 
               <img
                 src={meal.strMealThumb}
@@ -147,41 +170,3 @@ const RecipeDetailView = () => {
 };
 
 export default RecipeDetailView;
-
-const SaveButton = ({ meal }) => {
-  const { isAuthenticated, openAuth } = useAuth();
-
-  const handleSave = () => {
-    if (!isAuthenticated) return openAuth("login");
-
-    try {
-      const list = getCommunityFavorites() || [];
-      const exists = list.find((m) => m.idMeal === meal.idMeal);
-      if (exists) {
-        alert("Already saved to favorites.");
-        return;
-      }
-      const next = [
-        {
-          idMeal: meal.idMeal,
-          strMeal: meal.strMeal,
-          strMealThumb: meal.strMealThumb,
-        },
-        ...list,
-      ];
-      setCommunityFavorites(next);
-      alert("Saved to favorites.");
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
-  return (
-    <button
-      onClick={handleSave}
-      className="btn btn-primary flex items-center gap-2"
-    >
-      <Heart className="w-4 h-4" /> Save
-    </button>
-  );
-};

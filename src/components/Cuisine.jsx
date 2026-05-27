@@ -18,10 +18,10 @@ const Cuisine = ({ filterByArea }) => {
   ];
 
   return (
-    <section className="mt-6">
-      <div className="px-4 mb-3">
-        <h2 className="text-2xl font-extrabold mb-1 tracking-tight border-l-4 border-primary pl-4 flex items-center gap-3">
-          <Globe className="w-5 h-5 text-accent mr-2" />
+    <section>
+      <div className="px-4 mb-4">
+        <h2 className="text-3xl font-extrabold mb-2 tracking-tight flex items-center gap-3 border-l-4 border-yellow-400 pl-4">
+          <Globe className="w-6 h-6 text-blue-500" />
           Global Cuisines
         </h2>
         <p className="text-muted text-sm">
@@ -29,14 +29,13 @@ const Cuisine = ({ filterByArea }) => {
         </p>
       </div>
 
-      {/* Mobile: horizontal scrollable chips like Quick Filter */}
       <div className="sm:hidden px-4">
-        <div className="flex gap-3 overflow-x-auto py-2">
+        <div className="flex gap-3 overflow-x-auto py-2 cuisine-scroll">
           {featuredAreas.map((area) => (
             <Link
               to={`search/${area}`}
-              key={area}
               onClick={() => filterByArea(area)}
+              key={area}
               aria-label={`Filter by ${area}`}
               className="inline-flex items-center whitespace-nowrap px-4 py-2 rounded-full card shadow-sm text-sm font-semibold text-accent hover:scale-105 transition"
             >
@@ -46,17 +45,16 @@ const Cuisine = ({ filterByArea }) => {
         </div>
       </div>
 
-      {/* Desktop: grid tiles like Quick Filter */}
-      <div className="hidden sm:grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 px-4">
+      <div className="hidden sm:grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 px-4">
         {featuredAreas.map((area) => (
           <Link
             to={`search/${area}`}
-            key={area}
             onClick={() => filterByArea(area)}
+            key={area}
             aria-label={`Filter by ${area}`}
-            className="card p-4 rounded-xl shadow-md transition duration-300 text-center font-semibold hover:scale-[1.03] hover:ring-2 hover:ring-accent/20"
+            className="card p-5 rounded-xl shadow-xl transition duration-300 text-center font-semibold hover:scale-[1.03] hover:ring-2 hover:ring-accent/20"
           >
-            {area}
+            <div className="text-lg">{area}</div>
           </Link>
         ))}
       </div>

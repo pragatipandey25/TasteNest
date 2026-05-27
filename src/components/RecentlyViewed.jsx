@@ -1,14 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { getRecentlyViewed } from "../utils/store";
-import { useAuth } from "../AuthContext";
 
 const RecentlyViewed = () => {
-  const { isAuthenticated } = useAuth();
-
-  // Completely hide Recently Viewed for guests.
-  if (!isAuthenticated) return null;
-
   const list = getRecentlyViewed();
   if (!list || list.length === 0)
     return (
