@@ -3,7 +3,95 @@
 @import "slick-carousel/slick/slick.css";
 @import "slick-carousel/slick/slick-theme.css";
 
-body{
-  background-color: black;
-  color: white;
+:root {
+  --bg: #0f1724;
+  --surface: #0b1220;
+  --text: #e6eef8;
+  --muted: #9aa6b2;
+  --accent: #3b82f6;
+  --nav-bg: rgba(2, 6, 23, 0.8);
+  --input-bg: #0b1220;
+  --border: rgba(59, 130, 246, 0.12);
+}
+
+[data-theme="light"] {
+  --bg: #f8fafc;
+  --surface: #ffffff;
+  --text: #0f1724;
+  --muted: #475569;
+  --accent: #2563eb;
+  --nav-bg: rgba(255, 255, 255, 0.9);
+  --input-bg: #f1f5f9;
+  --border: rgba(15, 23, 36, 0.08);
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  transition:
+    background-color 200ms ease,
+    color 200ms ease;
+}
+
+/* Override key elements so Tailwind utility colors are harmonized with theme */
+nav {
+  background-color: var(--nav-bg) !important;
+  color: var(--text) !important;
+  border-color: var(--border) !important;
+}
+
+.min-h-screen {
+  background: transparent !important;
+}
+
+input,
+textarea,
+select {
+  background-color: var(--input-bg) !important;
+  color: var(--text) !important;
+  border-color: var(--border) !important;
+}
+
+button {
+  color: var(--text) !important;
+}
+
+.card,
+.recipe-card {
+  background: var(--surface) !important;
+  color: var(--text) !important;
+}
+
+/* small utilities */
+.text-muted {
+  color: var(--muted) !important;
+}
+.text-accent {
+  color: var(--accent) !important;
+}
+
+/* Ensure Tailwind utility classes used in the app adapt to the active theme */
+[data-theme="light"] .text-white,
+[data-theme="light"] .text-gray-50,
+[data-theme="light"] .text-gray-100 {
+  color: var(--text) !important;
+}
+
+[data-theme="light"] .bg-gray-900,
+[data-theme="light"] .bg-gray-950 {
+  background-color: var(--surface) !important;
+}
+
+[data-theme="light"] .border-gray-700 {
+  border-color: var(--border) !important;
+}
+
+[data-theme="light"] ::placeholder {
+  color: var(--muted) !important;
+  opacity: 1 !important;
+}
+
+/* keep accent and blue variants readable */
+[data-theme="light"] .text-blue-400 {
+  color: var(--accent) !important;
 }

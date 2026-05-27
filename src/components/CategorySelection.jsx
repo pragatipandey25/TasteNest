@@ -1,8 +1,7 @@
-import { Key, Utensils } from "lucide-react";
-
+import { Utensils } from "lucide-react";
 import { Link } from "react-router-dom";
 
-const CategorySelection = ({filterByCategory}) => {
+const CategorySelection = ({ filterByCategory }) => {
   const featuredCategories = [
     "Chicken",
     "Dessert",
@@ -14,28 +13,51 @@ const CategorySelection = ({filterByCategory}) => {
     "Pork",
     "Lamb",
   ];
+
   return (
-    <>
-      <section className="mt-20">
-        <h2 className="text-3xl font-extrabold text-gray-100 mb-6 tracking-tight border-1-4 border-yellow-400 pl-4 flex items-center">
-          <Utensils className="w-6 h-6 mr-3 text-blue-500" />
+    <section className="mt-20">
+      <div className="px-4 mb-4">
+        <h2 className="text-3xl font-extrabold mb-2 tracking-tight flex items-center gap-3 border-l-4 border-yellow-400 pl-4">
+          <Utensils className="w-6 h-6 text-blue-500" />
           Quick Filter by Primary Ingredient
         </h2>
+        <p className="text-muted text-sm">
+          Tap a primary ingredient to quickly filter recipes.
+        </p>
+      </div>
 
-        <div className="gird grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6">
+      {/* Small screens: horizontal scrollable chips */}
+      <div className="sm:hidden px-4">
+        <div className="flex gap-3 overflow-x-auto py-2">
           {featuredCategories.map((cat, index) => (
             <Link
               to={`search/${cat}`}
               key={index}
-              onClick={()=>filterByCategory(cat)}
-              className="bg-gray-800 p-5 sm:p-5 rounded-xl shadow-xl shadow-black/50 transition duration-300 text-center font-semibold text-gray-100 border border-gray-700 hover:border-blue-500 hover:text-blue-400 transform hover:scale-[1.05] hover:bg-gray-700/50 mx-5 mt-3"
+              onClick={() => filterByCategory(cat)}
+              aria-label={`Filter by ${cat}`}
+              className="inline-flex items-center whitespace-nowrap px-4 py-2 rounded-full card shadow-sm text-sm font-semibold text-accent hover:scale-105 transition"
             >
               {cat}
             </Link>
           ))}
         </div>
-      </section>
-    </>
+      </div>
+
+      {/* Larger screens: responsive grid */}
+      <div className="hidden sm:grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 px-4">
+        {featuredCategories.map((cat, index) => (
+          <Link
+            to={`search/${cat}`}
+            key={index}
+            onClick={() => filterByCategory(cat)}
+            aria-label={`Filter by ${cat}`}
+            className="card p-5 rounded-xl shadow-xl transition duration-300 text-center font-semibold hover:scale-[1.03] hover:ring-2 hover:ring-accent/20"
+          >
+            <div className="text-lg">{cat}</div>
+          </Link>
+        ))}
+      </div>
+    </section>
   );
 };
 

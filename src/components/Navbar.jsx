@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 
-import { Search, Zap } from "lucide-react";
+import { Search, Zap, Sun, Moon } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
+import { useTheme } from "../ThemeContext";
 
 const Navbar = ({ handleSearch }) => {
   const [input, setInput] = useState("");
@@ -28,29 +29,51 @@ const Navbar = ({ handleSearch }) => {
               <Zap className="w-7 h-7 mr-2 text-yellow-400 fill-yellow-400/20" />
               <span className="text-blue-400">Pro</span>Chef
             </Link>
-
-            <form
-              onSubmit={searchHandler}
-              className="flex-1 max-w-lg mx-4 hidden sm:flex"
-            >
-              <input
-                type="text"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                placeholder="Search dishes, ingredients, or cuisine..."
-                className="w-full px-5 py-2 border border-gray-700 bg-gray-900 text-gray-50 rounded-l-full focus:outline-none focus:ring-4 focus:ring-blue-600/50 transition placeholder-gray-500 shadow-inner shadow-black/50"
-              />
-              <button
-                type="submit"
-                className="bg-linear-to-r from-blue-600 to-cyan-500 text-white p-2.5 rounded-r-full hover:from-blue-700 hover:to-cyan-600 transition duration-300 shadow-lg shadow-blue-800/50 hover:shadow-xl hover:shadow-blue-800/90"
+            <div className="flex items-center">
+              <form
+                onSubmit={searchHandler}
+                className="flex-1 max-w-lg mx-4 hidden sm:flex"
               >
-                <Search className="w-5 h-5" />
-              </button>
-            </form>
+                <input
+                  type="text"
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  placeholder="Search dishes, ingredients, or cuisine..."
+                  className="w-full px-5 py-2 border border-gray-700 bg-gray-900 text-gray-50 rounded-l-full focus:outline-none focus:ring-4 focus:ring-blue-600/50 transition placeholder-gray-500 shadow-inner shadow-black/50"
+                />
+                <button
+                  type="submit"
+                  className="bg-linear-to-r from-blue-600 to-cyan-500 text-white p-2.5 rounded-r-full hover:from-blue-700 hover:to-cyan-600 transition duration-300 shadow-lg shadow-blue-800/50 hover:shadow-xl hover:shadow-blue-800/90"
+                >
+                  <Search className="w-5 h-5" />
+                </button>
+              </form>
+
+              <ThemeToggle />
+            </div>
           </div>
         </div>
       </nav>
     </>
+  );
+};
+
+const ThemeToggle = () => {
+  const { theme, toggleTheme } = useTheme();
+
+  return (
+    <button
+      onClick={toggleTheme}
+      aria-label="Toggle theme"
+      className="ml-2 p-2 rounded-full bg-white/5 hover:bg-white/10 transition"
+      title={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+    >
+      {theme === "dark" ? (
+        <Sun className="w-5 h-5 text-yellow-300" />
+      ) : (
+        <Moon className="w-5 h-5 text-gray-800" />
+      )}
+    </button>
   );
 };
 
