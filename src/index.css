@@ -141,3 +141,8 @@ button {
 [data-theme="light"] .text-blue-400 {
   color: var(--accent) !important;
 }
+
+/* lighten muted footer text specifically in light theme for better contrast */
+[data-theme="light"] footer .text-muted {
+  color: #64748b !important;
+}
