@@ -70,6 +70,53 @@ button {
   color: var(--accent) !important;
 }
 
+.premium-cta {
+  border: 1px solid var(--border);
+  color: var(--text) !important;
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    filter 180ms ease,
+    border-color 180ms ease;
+}
+
+.premium-cta:hover {
+  transform: translateY(-1px);
+  filter: saturate(1.05);
+}
+
+.premium-cta:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--accent) 70%, white);
+  outline-offset: 2px;
+}
+
+.premium-chicken {
+  background: color-mix(in srgb, var(--surface) 84%, var(--accent));
+  border-color: color-mix(in srgb, var(--accent) 24%, var(--border));
+}
+
+.premium-chicken:hover {
+  background: color-mix(in srgb, var(--surface) 76%, var(--accent));
+}
+
+.premium-veg {
+  background: color-mix(in srgb, var(--surface) 86%, #10b981);
+  border-color: color-mix(in srgb, #10b981 22%, var(--border));
+}
+
+.premium-veg:hover {
+  background: color-mix(in srgb, var(--surface) 78%, #10b981);
+}
+
+.featured-banner {
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+
+[data-theme="light"] .featured-banner {
+  background: var(--surface);
+}
+
 /* Cuisine bar and chips — theme-aware, consistent spacing and contrast */
 .cuisine-bar {
   background-color: var(--nav-bg) !important;
