@@ -6,7 +6,6 @@ import CategorySection from "./CategorySelection";
 import CuisineSection from "./Cuisine";
 import FeaturedBanner from "./FeaturedBanner";
 import PlaceholderSection from "./PlaceholderSection";
-import BasedOnTaste from "./BasedOnTaste";
 import RecentlyViewed from "./RecentlyViewed";
 
 import { API_URL } from "./useFetch";
@@ -41,8 +40,7 @@ const HomeView = ({ filterByCategory, filterByArea, isAuthenticated }) => {
         fetchUrl={`${API_URL}filter.php?a=Canadian`}
       />
 
-      {/* Based on Your Taste */}
-      <BasedOnTaste />
+      {/* Based on Your Taste (removed) */}
 
       {/* Healthy Choices */}
       <TredingRecipe
