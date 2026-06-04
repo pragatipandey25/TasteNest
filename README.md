@@ -1,4 +1,4 @@
-# Food Recipe
+# TasteNest- Food Recipe 
 
 A small React + Vite application that lets users browse, search and view recipes using TheMealDB API.
 
