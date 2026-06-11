@@ -1,12 +1,33 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useTheme } from "../ThemeContext";
 
 const RecipeCard = ({ meal, compact = false }) => {
-  // console.log("my meal = ",meal)
+  const { theme } = useTheme();
+  const isLight = theme === "light";
+
+  const cardStyle = {
+    backgroundColor: isLight ? "#ffffff" : "#0b1220",
+    color: isLight ? "#0f1724" : "#e6eef8",
+    borderColor: isLight
+      ? "rgba(15, 23, 36, 0.08)"
+      : "rgba(59, 130, 246, 0.12)",
+    boxShadow: isLight
+      ? "0 18px 40px rgba(15, 23, 42, 0.12)"
+      : "0 24px 60px rgba(0, 0, 0, 0.42)",
+  };
+
+  const imageStyle = {
+    borderColor: isLight
+      ? "rgba(15, 23, 36, 0.08)"
+      : "rgba(59, 130, 246, 0.12)",
+  };
+
   return (
     <Link to={`/recipe/${meal.idMeal}`}>
       <div
-        className={`relative bg-gray-900 rounded-xl shadow-xl shadow-black/50 overflow-hidden group transform transition duration-500 cursor-pointer border border-gray-800 hover:shadow-blue-600/50 ${compact ? "mb-5" : ""}`}
+        className={`recipe-card card relative rounded-xl overflow-hidden group transform transition duration-500 cursor-pointer ${compact ? "mb-5" : ""}`}
+        style={cardStyle}
       >
         <div className="absolute inset-0 rounded-xl border-2 border-transparent group-hover:border-blue-500/80 transition duration-500"></div>
 
@@ -16,16 +37,17 @@ const RecipeCard = ({ meal, compact = false }) => {
           <img
             src={meal?.strMealThumb}
             alt=""
+            style={imageStyle}
             className={
               compact
-                ? "h-[120px] w-[120px] rounded-xl border border-yellow-400 transition duration-500 group-hover:scale-105"
-                : "h-60 w-60 rounded-xl border border-yellow-400 transition duration-500 group-hover:scale-105"
+                ? "h-[120px] w-[120px] rounded-xl border border-(--border) transition duration-500 group-hover:scale-105"
+                : "h-60 w-60 rounded-xl border border-(--border) transition duration-500 group-hover:scale-105"
             }
           />
         </div>
         {!compact && (
           <div className="p-2 text-center">
-            <h3 className="text-xl pb-3 font-bold text-gray-100 mb-1 group-hover:text-blue-400 transition duration-300">
+            <h3 className="text-xl pb-3 font-bold mb-1 group-hover:text-blue-400 transition duration-300">
               {meal.strMeal}
             </h3>
           </div>
