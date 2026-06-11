@@ -106,7 +106,10 @@ const App = () => {
   return (
     <>
       <Router>
-        <div className="min-h-screen bg-gray-950 font-sans text-gray-100">
+        <div
+          className="min-h-screen font-sans"
+          style={{ backgroundColor: "var(--bg)", color: "var(--text)" }}
+        >
           <Navbar
             handleSearch={handleSearch}
             authUser={authUser}
