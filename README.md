@@ -7,7 +7,7 @@ A small React + Vite application that lets users browse, search and view recipes
 - Curated sliders for staff picks and trending meals
 - Category-based filtering and search
 - Recipe detail view with ingredients and instructions
-- Includes an "Indian Favorites" section (uses TheMealDB)
+- Includes an "Indian Favorites" section
 
 ## Quick Start
 
