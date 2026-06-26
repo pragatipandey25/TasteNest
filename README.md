@@ -87,7 +87,3 @@ Suggested small improvements:
 - Add graceful empty-state UI for sliders with no results
 
 ---
-
-## 📝 License
-
-MIT
